@@ -3,16 +3,18 @@
 
 const ItemCard = ({ item }) => {
 
-    const { image, name, recipe } = item;
+    const { image, name, recipe,price } = item;
 
     return (
         <div className="card bg-base-100 shadow-xl">
             <figure className="">
                 <img src={image} alt={name} className="rounded-xl" />
             </figure>
+            <p className="bg-slate-900 text-white absolute right-0 mr-6 mt-4 px-4">${price}</p>
             <div className="card-body items-center text-center">
                 <h2 className="card-title ">{name}</h2>
                 <p className="my-4">{recipe}</p>
+                
                 <div className="card-actions">
                     <button className="btn border-b-yellow-700 border-b-4 outline-none text-yellow-600 hover:bg-slate-600 hover:border-none hover:text-white">Add To Cart</button>
                 </div>

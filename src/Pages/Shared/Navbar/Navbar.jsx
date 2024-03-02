@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
-
+import { MdShoppingCart } from "react-icons/md";
 
 const Navbar = () => {
 
@@ -30,6 +30,14 @@ const Navbar = () => {
             <li><Link to="/menu" style={isActive("/menu") ? { color: "gold" } : {}}>Our Menu</Link></li>
             <li><Link to="/secret" style={isActive("/secret") ? { color: "gold" } : {}}>Secret</Link></li>
             <li><Link to="/order/salad" style={isActive("/order/salad") ? { color: "gold" } : {}}>Order Food</Link></li>
+            <li>
+                <Link to="/">
+                    <button className="btn">
+                        <MdShoppingCart className="mr-2"></MdShoppingCart>
+                        <div className="badge badge-secondary">+0</div>
+                    </button>
+                </Link>
+            </li>
 
 
             {

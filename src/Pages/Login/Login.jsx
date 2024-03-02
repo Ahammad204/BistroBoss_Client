@@ -51,6 +51,18 @@ const Login = () => {
                 navigate(from, {replace: true});
 
             })
+            .catch(error => {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                   
+                  });
+
+                  console.log(error)
+
+            })
 
     }
 

@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
 
 
 const Navbar = () => {
 
     const { user, logOut } = useContext(AuthContext);
+    const location = useLocation();
 
     const handleLogOut = () => {
 
@@ -19,23 +20,27 @@ const Navbar = () => {
 
     }
 
+    const isActive = (path) => {
+        return location.pathname === path;
+    };
+
     const navoptions =
         <>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/menu">Our Menu</Link></li>
-            <li><Link to="/secret">Secret</Link></li>
-            <li><Link to="/order/salad">Order Food</Link></li>
+            <li><Link to="/" style={isActive("/") ? { color: "gold" } : {}}>Home</Link></li>
+            <li><Link to="/menu" style={isActive("/menu") ? { color: "gold" } : {}}>Our Menu</Link></li>
+            <li><Link to="/secret" style={isActive("/secret") ? { color: "gold" } : {}}>Secret</Link></li>
+            <li><Link to="/order/salad" style={isActive("/order/salad") ? { color: "gold" } : {}}>Order Food</Link></li>
 
 
             {
 
                 user ?
                     <>
-                        <button onClick={handleLogOut} className="btn btn-ghost"> LogOut</button>
+
                     </>
                     :
                     <>
-                        <li><Link to="/login">Login</Link></li>
+
                     </>
 
             }
@@ -61,7 +66,31 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    {
+                        user?.email ? <div className="dropdown dropdown-end">
+                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+
+                                    <img src={user.photoURL} alt={user.displayName} />
+
+                                </div>
+                            </label>
+                            <ul tabIndex={0} className="menu menu-sm  dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                <li className="text-center">
+                                    <button className="text-black">{user.displayName}</button>
+
+                                </li>
+                                <li>
+                                    <button className="btn btn-sm  btn-ghost text-black"
+                                        onClick={handleLogOut}
+                                    >Logout</button>
+
+                                </li>
+                            </ul>
+                        </div>
+                            :
+                            <Link to="/login"><button className="btn text-black border-none ">Login Now</button></Link>
+                    }
                 </div>
             </div>
         </>

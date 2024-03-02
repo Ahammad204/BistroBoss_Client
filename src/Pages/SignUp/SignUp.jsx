@@ -1,10 +1,11 @@
 import signUpImg from '../../assets/others/authentication2.png'
 import bgImg from '../../assets/others/authentication.png'
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 
@@ -15,22 +16,49 @@ const SignUp = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
-    const {createUser} = useContext(AuthContext)
+    const {createUser, updateUserProfile} = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
 
         console.log(data);
         const email = data.email;
         const password = data.password;
+        const name = data.name;
+        const photo = data.photoURL
 
         createUser(email,password)
         .then(result => {
 
             const loggedUser = result.user;
-            console.log(loggedUser)
+            console.log(loggedUser);
+            updateUserProfile(name,photo)
+            .then(() => {
+
+                console.log('User Profile Updated')
+                reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Profile Has been Created",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+
+                  navigate('/')
+
+            })
+
+            .catch(error => {
+
+                console.log(error)
+
+            })
 
         })
 
@@ -57,6 +85,15 @@ const SignUp = () => {
                                 </label>
                                 <input type="text" name="name"  {...register("name", { required: true })} placeholder="Enter Your Full Name" className="input input-bordered" required />
                                 {errors.name && <span className='text-red-600 mt-2'>This field is required</span>}
+                            </div>
+
+                            {/* PhotUrl Field */}
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Photo</span>
+                                </label>
+                                <input type="text"  {...register("photoURL", { required: true })} placeholder="Enter Your Photo Url" className="input input-bordered" required />
+                                {errors.photoURL && <span className='text-red-600 mt-2'>This field is required</span>}
                             </div>
 
                             {/* Email Field */}

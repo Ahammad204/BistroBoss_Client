@@ -7,7 +7,7 @@ const MainLayout = () => {
 
     const location = useLocation();
 
-    const noheaderFooter = location.pathname.includes('login')
+    const noheaderFooter = location.pathname.includes('login') || location.pathname.includes('signup')
 
     return (
         <div>
